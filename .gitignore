@@ -1,0 +1,9 @@
+# Ignore macOS system file
+.DS_Store
+
+# Ignore Node.js dependencies
+backend/node_modules
+
+# Ignore environment variables
+backend/.env
+
