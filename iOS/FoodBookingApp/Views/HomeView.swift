@@ -45,8 +45,7 @@ struct HomeView: View {
                                     MenuItemDetailView(menuItem: item)
                                 } label: {
                                     CustomMenuItem(menuItem: item)
-                                        .transition(.slide)
-                                        .animation(.default, value: vmItems.filteredItems)
+//                                        .animation(.default, value: vmItems.filteredItems)
                                 }
                                 
                             }

@@ -136,10 +136,7 @@ struct MenuItemDetailView: View {
     
     var addToCartButton: some View {
         Button {
-            Task {
-                vmCart.addItem(CartItem(food: self.menuItem))
-            }
-            
+            vmCart.addItem(CartItem(menuItem: self.menuItem))
         } label: {
             Label("Add to Cart", systemImage: "plus")
                 .frame(maxWidth: .infinity)

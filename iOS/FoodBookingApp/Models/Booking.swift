@@ -11,6 +11,7 @@ struct Booking: Codable, Identifiable {
     
     let id: Int
     let restaurantName: String
+    let bookingTime: Date
     let orders: [Order]
     
     

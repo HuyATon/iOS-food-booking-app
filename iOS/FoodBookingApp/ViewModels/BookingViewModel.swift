@@ -30,6 +30,7 @@ class BookingViewModel: ObservableObject {
         do {
             let fetchedBooking = try await bookingService.getAllBooking()
             self.bookings = fetchedBooking
+            self.bookings.sort { $0.bookingTime > $1.bookingTime}
         }
         catch {
             

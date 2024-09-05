@@ -24,9 +24,9 @@ struct CartItem: Identifiable {
     }
     
     
-    init(food: MenuItem) {
+    init(menuItem: MenuItem) {
         
-        self.menuItem = food
+        self.menuItem = menuItem
     }
     
     

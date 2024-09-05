@@ -34,6 +34,7 @@ struct PaymentView: View {
             }
             
             
+            
             Button("Place Order") {
                 Task {
                     await vmCart.placeOrder()
@@ -41,21 +42,22 @@ struct PaymentView: View {
             }
             .frame(maxWidth: .infinity)
             .foregroundStyle(.white)
-            .font(.title)
+            .font(.title2)
             .fontWeight(.semibold)
             .padding()
             .background(Color.button)
             .clipShape(.rect(cornerRadius: 15))
-
+            
+            Spacer(minLength: 70)
             
             
         }
         .alert(
             "Booking Message", 
-            isPresented: $vmCart.showAlert,
+            isPresented: $vmCart.showCheckOutAlert,
             actions: { Button("OK") { } },
             message: {
-                if let message = vmCart.alertMessage {
+                if let message = vmCart.checkOutMessage {
                     Text(message)
                 }
             }

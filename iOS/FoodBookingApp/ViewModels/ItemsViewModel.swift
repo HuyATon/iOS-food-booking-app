@@ -42,8 +42,7 @@ class ItemsViewModel: ObservableObject {
             }
             else {
                 return items
-                    .filter { $0.category == currentCategory}
-                    .filter { $0.name.lowercased().localizedCaseInsensitiveContains(searchText)}
+                    .filter { $0.category == currentCategory && $0.name.lowercased().localizedCaseInsensitiveContains(searchText)}
             }
         }
     }

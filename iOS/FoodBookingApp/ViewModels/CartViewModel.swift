@@ -17,6 +17,10 @@ class CartViewModel: ObservableObject {
     @Published var alertMessage: String?
     
     
+    @Published var showCheckOutAlert = false
+    @Published var checkOutMessage: String?
+    
+    
     var totalPrice: Int {
         cartItems.reduce(0) {$0 + $1.totalPrice}
     }
@@ -28,6 +32,11 @@ class CartViewModel: ObservableObject {
     
     func addItem(_ item: CartItem) {
         
+        defer {
+            alertMessage = "\(item.menuItem.name) has been added to your Cart"
+            showAlert = true
+        }
+        
         if let index = cartItems.firstIndex(where: { $0.id == item.id}) {
             
             cartItems[index].increaseQuantity()
@@ -37,26 +46,25 @@ class CartViewModel: ObservableObject {
         }
         
         
-        alertMessage = "\(item.menuItem.name) has been added to your Cart"
-        showAlert = true
+        
     }
     
     func placeOrder() async {
         
         let bookingService = BookingService()
         
+        defer {
+            self.showCheckOutAlert = true
+        }
+        
         do {
             
             let message = try await bookingService.book(cartItems: self.cartItems)
-            self.alertMessage = message
-            self.showAlert = true
-            self.cartItems = []
-            
+            self.checkOutMessage = message
+            self.cartItems.removeAll()
         }
         catch  {
-            
-            self.alertMessage = error.localizedDescription
-            self.showAlert = true
+            self.checkOutMessage = error.localizedDescription
         }
     }
 }

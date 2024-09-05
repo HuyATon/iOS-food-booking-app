@@ -46,9 +46,11 @@ export const getUserBookings = async (req, res) => {
 
     const userId = req.user.id
     try {
+        
         const result = await database.query(
             `SELECT
             bk.id as id,
+            bk.booking_time,
             res.name as restaurant_name,
             item.name as item_name,
             item.image as image,
@@ -59,7 +61,7 @@ export const getUserBookings = async (req, res) => {
             JOIN "Restaurants" res ON bk.restaurant_id = res.id
             JOIN "MenuItems" item ON od.menu_item_id = item.id
             WHERE bk.user_id = $1
-            ORDER BY bk.booking_time DESC
+            ORDER BY bk.booking_time ASC
             `,
             [userId]
         )
@@ -67,15 +69,17 @@ export const getUserBookings = async (req, res) => {
             res.json([])
         }
         else {
+            console.log(result.rows)
             const bookingsMap = new Map()
             result.rows.forEach(booking => {
                 console.log(booking)
-                const {id, restaurant_name, item_name, image, price, quantity} = booking
+                const {id, booking_time, restaurant_name, item_name, image, price, quantity} = booking
 
                 if (!bookingsMap[id]) {
                     bookingsMap[id] = {
                         id,
                         restaurant_name,
+                        booking_time,
                         orders: []
                     }
                 }

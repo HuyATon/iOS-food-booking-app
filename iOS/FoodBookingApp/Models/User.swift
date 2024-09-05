@@ -21,6 +21,8 @@ struct User: Codable {
     var token: String
 
     
+    // MARK: Intents
+    
     mutating func updateProfile(fullname: String, phoneNumber: String, address: String, latitude: Double, longitude: Double) {
         
         self.fullname = fullname

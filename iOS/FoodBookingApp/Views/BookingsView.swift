@@ -13,6 +13,13 @@ struct BookingsView: View {
     @EnvironmentObject var vmBooking: BookingViewModel
 
 
+
+    func getFormattedDate(date: Date, format: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format // Customize format as needed
+        // 05 Sep
+        return dateFormatter.string(from: date)
+    }
     
     var body: some View {
         VStack {
@@ -32,8 +39,8 @@ struct BookingsView: View {
                                     .minimumScaleFactor(0.7)
                             }
                             HStack {
-                                Label("Time:", systemImage: "clock").bold()
-                                Text("21h30")
+                                Label("At:", systemImage: "clock").bold()
+                                Text(getFormattedDate(date: booking.bookingTime, format: "dd/MM/yyyy HH:mm"))
                             }
                             Text("Items").bold()
                             
@@ -52,10 +59,23 @@ struct BookingsView: View {
                         }
                         
                     } label: {
-                        Label("Booking ID: \(booking.id)", systemImage: "basket")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(Color.button)
+                        HStack {
+                            Label("BID: \(booking.id)", systemImage: "basket")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color.button)
+                            
+                            Spacer()
+                            
+                            Text(getFormattedDate(date: booking.bookingTime, format: "dd MMM"))
+                                .font(.caption2)
+                                .fontWeight(.semibold)
+                                .padding()
+                                .background(Color.button)
+                                .clipShape(.capsule)
+                                .foregroundStyle(.white)
+                        }
+                        .padding(.vertical)
                         
                     }
                     Divider()
