@@ -11,6 +11,7 @@ import MapKit
 struct MainView: View {
         
     @EnvironmentObject var vmCart: CartViewModel
+    @EnvironmentObject var vmItems: ItemsViewModel
     
     @State var currentTab: Tab = .home
     
@@ -26,6 +27,9 @@ struct MainView: View {
             TabView(selection: $currentTab) {
                 HomeView()
                     .tag(Tab.home)
+                    .task {
+                        await vmItems.fetchRestaurantsAndMenuItems()
+                    }
                 
                 CartView()
                     .tag(Tab.cart)

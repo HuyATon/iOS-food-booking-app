@@ -79,13 +79,13 @@ struct CustomTabBar: View {
                                 .fontDesign(.monospaced)
                         }
                         .offset(y: (tab == currentTab) ? -10 : 0)
-                        .foregroundStyle( (tab == currentTab) ? Color.button : .white)
+                        .foregroundStyle( (tab == currentTab) ? Color.button : .gray)
                     }
                 }
             }
         }
         .frame(height: 80)
-        .background(.ultraThinMaterial)
+        .background(.ultraThickMaterial)
         .clipShape(.capsule)
 
     }

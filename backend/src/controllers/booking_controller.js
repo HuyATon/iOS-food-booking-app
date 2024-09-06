@@ -52,6 +52,7 @@ export const getUserBookings = async (req, res) => {
             bk.id as id,
             bk.booking_time,
             res.name as restaurant_name,
+            item.id as menu_item_id,
             item.name as item_name,
             item.image as image,
             item.price as price,
@@ -73,7 +74,7 @@ export const getUserBookings = async (req, res) => {
             const bookingsMap = new Map()
             result.rows.forEach(booking => {
                 console.log(booking)
-                const {id, booking_time, restaurant_name, item_name, image, price, quantity} = booking
+                const {id, booking_time, restaurant_name, menu_item_id, item_name, image, price, quantity} = booking
 
                 if (!bookingsMap[id]) {
                     bookingsMap[id] = {
@@ -84,6 +85,7 @@ export const getUserBookings = async (req, res) => {
                     }
                 }
                 bookingsMap[id].orders.push({
+                    menu_item_id,
                     item_name,
                     image,
                     price,
@@ -101,6 +103,29 @@ export const getUserBookings = async (req, res) => {
             message: "Server errors occur in query user bookings"
         })
     }
+}
+
+export const createFeedback = async (req, res) => {
+
+    const userId = req.user.id
+    const { menuItemId, rating, review } = req.body
+
+    try {
+        console.log(req.body)
+        const result = await database.query(
+            `INSERT INTO "MenuItemRatings"(menu_item_id, user_id, rating, review) VALUES ($1, $2, $3, $4)`,
+            [menuItemId, userId, rating, review]
+        )
+        res.json({
+            message: "Sending feedback successfully"
+        })
+    }
+    catch (error) {
+        res.json({
+            message: "Error in sending feedback"
+        })
+    }
+
 }
 
 

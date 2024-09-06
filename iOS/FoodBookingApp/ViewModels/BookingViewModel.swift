@@ -38,4 +38,25 @@ class BookingViewModel: ObservableObject {
             showAlert = true
         }
     }
+    
+    func sendFeedBack(_ feedback: Feedback) async {
+        
+        isLoading.toggle()
+        
+        
+        defer {
+            isLoading.toggle()
+            self.showAlert.toggle()
+        }
+        
+        let feedbackService = FeedbackService()
+        
+        do {
+            let message = try await feedbackService.sendFeedback(feedback)
+            alertMessage = message
+        }
+        catch {
+            alertMessage = error.localizedDescription
+        }
+    }
 }
