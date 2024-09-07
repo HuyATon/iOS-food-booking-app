@@ -39,9 +39,7 @@ struct FoodBookingApp: App {
                         // MARK: Asking user location
                         CLLocationManager().requestWhenInUseAuthorization()
                     }
-                    .task {
-                        await vmItems.fetchRestaurantsAndMenuItems()
-                    }
+                    
             default:
                 LoginView()
                     .environmentObject(vmUser)

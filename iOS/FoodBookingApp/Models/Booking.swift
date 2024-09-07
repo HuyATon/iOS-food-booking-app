@@ -16,6 +16,6 @@ struct Booking: Codable, Identifiable {
     
     
     func getTotalPrice() -> Int {
-        return orders.reduce(0, { $0 + Int($1.price)! * $1.quantity})
+        return orders.reduce(0, { $0 + $1.price * $1.quantity})
     }
 }

@@ -11,8 +11,9 @@ import Foundation
 
 struct Order: Codable, Hashable {
     
+    let menuItemId: Int
     let itemName: String
     let image: String
-    let price: String
+    let price: Int
     let quantity: Int
 }

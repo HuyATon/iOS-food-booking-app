@@ -15,6 +15,11 @@
 		9632DF6A2C6E3F7300D3C8EE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632DF692C6E3F7300D3C8EE /* HomeView.swift */; };
 		9632DF792C6F90D500D3C8EE /* OptionalCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632DF782C6F90D500D3C8EE /* OptionalCategory.swift */; };
 		9632DF7B2C6F96FE00D3C8EE /* OptionalCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632DF7A2C6F96FE00D3C8EE /* OptionalCategories.swift */; };
+		9646F23A2C8AD29F002B456B /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9646F2392C8AD29F002B456B /* RatingView.swift */; };
+		9646F23C2C8B38A5002B456B /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9646F23B2C8B38A5002B456B /* FeedbackService.swift */; };
+		965728812C8B656700415322 /* FeedbackUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965728802C8B656700415322 /* FeedbackUI.swift */; };
+		965728832C8B6DDC00415322 /* UserFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965728822C8B6DDC00415322 /* UserFeedback.swift */; };
+		965728862C8B795C00415322 /* DateFormatConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965728852C8B795C00415322 /* DateFormatConverter.swift */; };
 		965E68912C6F9C5400208FC2 /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965E68902C6F9C5400208FC2 /* CustomSearchBar.swift */; };
 		965E68932C6F9EE300208FC2 /* Promotions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965E68922C6F9EE300208FC2 /* Promotions.swift */; };
 		965E68952C6F9FBE00208FC2 /* Promotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965E68942C6F9FBE00208FC2 /* Promotion.swift */; };
@@ -61,6 +66,11 @@
 		9632DF692C6E3F7300D3C8EE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		9632DF782C6F90D500D3C8EE /* OptionalCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalCategory.swift; sourceTree = "<group>"; };
 		9632DF7A2C6F96FE00D3C8EE /* OptionalCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalCategories.swift; sourceTree = "<group>"; };
+		9646F2392C8AD29F002B456B /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
+		9646F23B2C8B38A5002B456B /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
+		965728802C8B656700415322 /* FeedbackUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackUI.swift; sourceTree = "<group>"; };
+		965728822C8B6DDC00415322 /* UserFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedback.swift; sourceTree = "<group>"; };
+		965728852C8B795C00415322 /* DateFormatConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatConverter.swift; sourceTree = "<group>"; };
 		965E68902C6F9C5400208FC2 /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 		965E68922C6F9EE300208FC2 /* Promotions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promotions.swift; sourceTree = "<group>"; };
 		965E68942C6F9FBE00208FC2 /* Promotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promotion.swift; sourceTree = "<group>"; };
@@ -131,6 +141,7 @@
 				965E689A2C708ADE00208FC2 /* CustomMenuItem.swift */,
 				965E689E2C70E61000208FC2 /* CartSection.swift */,
 				96F14E392C7F429700ECCAE0 /* CustomOrder.swift */,
+				965728802C8B656700415322 /* FeedbackUI.swift */,
 			);
 			path = CustomUI;
 			sourceTree = "<group>";
@@ -141,6 +152,14 @@
 				965E68AA2C72E5C800208FC2 /* Location+Ext.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		965728842C8B794E00415322 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				965728852C8B795C00415322 /* DateFormatConverter.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		968D3FA92C6A5384002D92EC = {
@@ -162,6 +181,7 @@
 		968D3FB42C6A5385002D92EC /* FoodBookingApp */ = {
 			isa = PBXGroup;
 			children = (
+				965728842C8B794E00415322 /* Utils */,
 				968D3FB52C6A5385002D92EC /* FoodBookingApp.swift */,
 				968D3FB72C6A5385002D92EC /* ContentView.swift */,
 				961723582C75E5DD008D343A /* Router */,
@@ -196,6 +216,7 @@
 				96D956E52C7DB014006F39C0 /* Restaurant.swift */,
 				96F14E312C7F20C300ECCAE0 /* Booking.swift */,
 				96F14E332C7F2AD800ECCAE0 /* Order.swift */,
+				965728822C8B6DDC00415322 /* UserFeedback.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -214,6 +235,7 @@
 				9664ADB02C75B2980005CF66 /* ProfileView.swift */,
 				968E67A02C7CDB6200D3C115 /* PaymentView.swift */,
 				96F14E372C7F342B00ECCAE0 /* BookingsView.swift */,
+				9646F2392C8AD29F002B456B /* RatingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -238,6 +260,7 @@
 				9624EAF92C74979A004A4FD8 /* UserProfileService.swift */,
 				96D956E32C7DAFF6006F39C0 /* FetchService.swift */,
 				96D956E72C7E2115006F39C0 /* BookingService.swift */,
+				9646F23B2C8B38A5002B456B /* FeedbackService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -339,19 +362,24 @@
 				965E68A32C70F11A00208FC2 /* CartViewModel.swift in Sources */,
 				9632DF7B2C6F96FE00D3C8EE /* OptionalCategories.swift in Sources */,
 				96F184702C6C733600241AE0 /* User.swift in Sources */,
+				9646F23A2C8AD29F002B456B /* RatingView.swift in Sources */,
 				9632DF792C6F90D500D3C8EE /* OptionalCategory.swift in Sources */,
 				965E68952C6F9FBE00208FC2 /* Promotion.swift in Sources */,
+				965728862C8B795C00415322 /* DateFormatConverter.swift in Sources */,
 				96F1846B2C6C263A00241AE0 /* Constants.swift in Sources */,
 				965E68AB2C72E5C800208FC2 /* Location+Ext.swift in Sources */,
 				965E68972C70651500208FC2 /* MenuItemDetailView.swift in Sources */,
 				968D3FCA2C6A5F8F002D92EC /* LoginView.swift in Sources */,
 				96F14E322C7F20C300ECCAE0 /* Booking.swift in Sources */,
 				96F14E382C7F342B00ECCAE0 /* BookingsView.swift in Sources */,
+				9646F23C2C8B38A5002B456B /* FeedbackService.swift in Sources */,
 				965E68A92C72DE8900208FC2 /* ChangeLocationView.swift in Sources */,
+				965728832C8B6DDC00415322 /* UserFeedback.swift in Sources */,
 				968D3FB62C6A5385002D92EC /* FoodBookingApp.swift in Sources */,
 				96D956E82C7E2115006F39C0 /* BookingService.swift in Sources */,
 				9664ADB12C75B2980005CF66 /* ProfileView.swift in Sources */,
 				96F14E3A2C7F429700ECCAE0 /* CustomOrder.swift in Sources */,
+				965728812C8B656700415322 /* FeedbackUI.swift in Sources */,
 				9624EAFA2C74979A004A4FD8 /* UserProfileService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

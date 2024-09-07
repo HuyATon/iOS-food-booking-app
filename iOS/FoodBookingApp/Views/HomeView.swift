@@ -27,12 +27,8 @@ struct HomeView: View {
                     
                     OptionalCategories(currentCategory: $vmItems.currentCategory)
                     
-                    Text("Order Now!")
-                        .fontWeight(.bold)
-                        .font(.largeTitle)
-                        .onTapGesture {
-                            print(vmItems.items)
-                        }
+                    Text("Order Now!").font(.title).bold()
+                       
                     if vmItems.isLoading {
                         ProgressView()
                     }
@@ -45,7 +41,6 @@ struct HomeView: View {
                                     MenuItemDetailView(menuItem: item)
                                 } label: {
                                     CustomMenuItem(menuItem: item)
-//                                        .animation(.default, value: vmItems.filteredItems)
                                 }
                                 
                             }

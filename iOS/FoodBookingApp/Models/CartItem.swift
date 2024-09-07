@@ -32,7 +32,7 @@ struct CartItem: Identifiable {
     
     
     var totalPrice: Int {
-        Int(menuItem.price)! * quantity
+        menuItem.price * quantity
     }
     
     

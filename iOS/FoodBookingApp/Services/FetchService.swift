@@ -19,7 +19,9 @@ class FetchService {
     
     
     func getJSON<T: Decodable> (
-        keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) async throws -> T {
+        keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys,
+        dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate
+    ) async throws -> T {
                     
             guard let url = URL(string: self.fetchURL) else {
                 throw NetworkError.invalidURL
@@ -33,6 +35,7 @@ class FetchService {
                 
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = keyDecodingStrategy
+                decoder.dateDecodingStrategy = dateDecodingStrategy
                 
                 do {
                     let decodedData = try decoder.decode(T.self, from: data)
@@ -44,7 +47,7 @@ class FetchService {
                 }
             }
             catch {
-                throw NetworkError.dataTaskError("Failed at data task")
+                throw NetworkError.dataTaskError(error.localizedDescription)
             }
         
     }

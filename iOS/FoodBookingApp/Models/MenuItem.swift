@@ -25,10 +25,9 @@ struct MenuItem: Identifiable, Equatable, Hashable, Decodable {
     let name: String
     let image: String
     let category: MenuItemCategory
-    let rating: Double
     let description: String
-    let price: String
-    
+    let price: Int
     let restaurantName: String
     let address: String
+    let averageRating: Double?
 }

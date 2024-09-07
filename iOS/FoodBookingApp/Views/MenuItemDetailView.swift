@@ -15,43 +15,40 @@ struct MenuItemDetailView: View {
     @State var animateGradient = false
     
     @EnvironmentObject var vmCart: CartViewModel
+    @EnvironmentObject var vmItems: ItemsViewModel
+    
     
     var body: some View {
-        ZStack {
-            VStack  {
-                Image(menuItem.image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                    .padding(.vertical, 20)
-                    .shadow(color: .black, radius: 7, x:4, y:4)
-                   
-                    
-                VStack {
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 25) {
-                            
-                            title
-                            description
-                            restaurantDetail
-                            detail
-                        }
+        
+        VStack  {
+            itemImage
+                
+            VStack {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 25) {
+                        
+                        title
+                        description
+                        restaurantDetail
+                        detail
+                        feedbacks
                     }
-                    Divider()
-      
-                    addToCartButton
-    
-              
-                    
-                    Spacer(minLength: 70)
-                    
                 }
-                .padding(25)
-                .background(.ultraThickMaterial)
-                .clipShape(.rect(cornerRadius: 50))
-                .ignoresSafeArea()
+                Divider()
+  
+                addToCartButton
+
+          
+                
+                Spacer(minLength: 70)
+                
             }
+            .padding(25)
+            .background(.ultraThickMaterial)
+            .clipShape(.rect(cornerRadius: 50))
+            .ignoresSafeArea()
         }
+    
         .alert(
             "Cart Message",
             isPresented: $vmCart.showAlert,
@@ -64,7 +61,11 @@ struct MenuItemDetailView: View {
         )
         .fontDesign(.rounded)
         .background(.gray.opacity(0.3))
+        .task {
+            await vmItems.fetchFeedbacksOfItem(menuItem)
+        }
     }
+        
     
     
     var title: some View {
@@ -77,14 +78,20 @@ struct MenuItemDetailView: View {
                 
                 Spacer()
                 
-                HStack {
-                    Image(systemName: "dollarsign")
-                    Text(menuItem.price)
-                }
-                .font(.title2)
+                Text("$\(menuItem.price)")
+                    .font(.title2)
             }
             Divider()
         }
+    }
+    
+    var itemImage: some View {
+        Image(menuItem.image)
+            .resizable()
+            .scaledToFit()
+            .frame(height: 200)
+            .padding(.vertical, 20)
+            .shadow(color: .black, radius: 7, x:4, y:4)
     }
     
     var description: some View {
@@ -94,7 +101,15 @@ struct MenuItemDetailView: View {
                 Image(systemName: "star.fill")
                     .foregroundStyle(.yellow)
                 
-                Text(String(menuItem.rating))
+                if let averageRating = menuItem.averageRating {
+                    Text(averageRating, format: .number.precision(.fractionLength(1)))
+                }
+                else {
+                    Text("has no reviews")
+                        .foregroundStyle(.secondary)
+                        .fontWeight(.ultraLight)
+                }
+                
             }
             Spacer()
             
@@ -133,6 +148,36 @@ struct MenuItemDetailView: View {
         }
     }
     
+    var feedbacks: some View {
+        
+        DisclosureGroup {
+         
+            if vmItems.isLoading {
+                ProgressView("Loading feedbacks")
+                    .padding()
+            }
+            else {
+                if vmItems.userFeedbacks.isEmpty {
+                    Text("Item has no feedbacks or error in retrieve feedbacks from server")
+                        .font(.caption)
+                        .fontWeight(.ultraLight)
+                }
+                else {
+                    ForEach(vmItems.userFeedbacks, id: \.self) { fb in
+                        FeedbackUI(feedback: fb)
+                    }
+                }
+            }
+        } label: {
+            Label("View Feedbacks", systemImage: "person.3.sequence")
+                .font(.headline)
+                .fontWeight(.semibold)
+                .foregroundStyle(.black)
+        }
+        .tint(.black)
+       
+    }
+    
     
     var addToCartButton: some View {
         Button {
@@ -150,11 +195,11 @@ struct MenuItemDetailView: View {
     }
 }
 
-//#Preview {
-//    @State var food = MenuItem(id: 1, restaurantId: 1,  name: "Vegetarian Soup", image: "vegetarian_soup", category: .Food, rating: 4.3 , description: "A hearty vegetarian soup filled wihh vegetarian soup filled with fresh vegetables, tender beans, and aromatic herbs in a rich, flavorful broth. Perfect for a cozy, nourishing meal.", price: "100"
-//    )
-//    
-//    return MenuItemDetailView(menuItem: food)
-//        .environmentObject(CartViewModel())
-//
-//}
+#Preview {
+    let food = MenuItem(id: 1, restaurantId: 1, name: "Coffee", image: "coffee", category: .Drinks, description: "Full of cafein", price: 15, restaurantName: "Highland", address: "123 Street", averageRating: 4.5)
+    
+    return MenuItemDetailView(menuItem: food)
+        .environmentObject(CartViewModel())
+        .environmentObject(ItemsViewModel())
+
+}
