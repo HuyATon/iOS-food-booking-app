@@ -9,8 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @State var animateGradient = false
+    @State private var animateGradient = false
     
+    @EnvironmentObject var vm: ViewModel
     @EnvironmentObject var vmItems: ItemsViewModel
     
     var body: some View {
@@ -79,7 +80,7 @@ struct HomeView: View {
                 .padding(.trailing, 20)
             
             VStack(alignment: .leading) {
-                Text("Welcome back, user!")
+                Text("Welcome back, \(vm.user?.username ?? "invalid_user")!")
                 Text("How hungry are you?")
             }
             .fontWeight(.light)

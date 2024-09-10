@@ -11,9 +11,9 @@ import Foundation
 struct User: Codable {
     
     let username: String
-    var fullname: String
-    var phoneNumber: String
-    var address: String
+    var fullname: String?
+    var phoneNumber: String?
+    var address: String?
     let email: String
     
     var latitude : Double?

@@ -8,33 +8,34 @@
 import SwiftUI
 import MapKit
 
+
+
+
 struct UpdateUserInfoView: View {
     
-    @EnvironmentObject var vmUser: UserViewModel
+    @EnvironmentObject var vm: ViewModel
     @EnvironmentObject var vmMap: MapViewModel
-    @EnvironmentObject var router: Router
     
-    @State var fullNameInput = ""
-    @State var phoneNumberInput = ""
-    @State var birthdayInput = Date.now
-    @State var addressInput = ""
-    @State var animateGradient = false
+    @State private var fullNameInput = ""
+    @State private var phoneNumberInput = ""
+    @State private var addressInput = ""
+    @State private var animateGradient = false
+    
+    
     
     var body: some View {
-        VStack (alignment: .leading) {
-            Text("Type in your new information")
-                .fontWeight(.semibold)
+        VStack (alignment: .leading, spacing: 20) {
             
-            nameField
+            InputField(text: $fullNameInput, systemIcon: "person", placeholder: "Fullname")
             
-            addressField
+            InputField(text: $addressInput, systemIcon: "map", placeholder: "Address")
             
-            phoneField
+            InputField(text: $phoneNumberInput, systemIcon: "phone", placeholder: "Phone Number")
             
-            birthdayField
             
             Divider()
             
+            Text("Update your location").fontWeight(.semibold)
             
             NavigationLink {
                 ChangeLocationView()
@@ -49,7 +50,6 @@ struct UpdateUserInfoView: View {
             
             updateButton
             
-            Spacer(minLength: 70)
         }
         .padding()
         .background {
@@ -62,24 +62,28 @@ struct UpdateUserInfoView: View {
                 }
                 .ignoresSafeArea()
         }
+        .onAppear {
+                vm.hideTabBar()
+        }
+
         
         // add ProgressView
         .overlay {
-            if vmUser.isLoading {
+            if vm.isLoading {
                 ProgressView()
                     .padding()
                     .background(.thickMaterial)
                     .clipShape(.rect(cornerRadius: 5))
             }
         }
-        .disabled( vmUser.isLoading)
+        .disabled( vm.isLoading)
         .alert("Update",
-               isPresented: $vmUser.showUpdateAlert,
+               isPresented: $vm.showUpdateAlert,
                actions: {
             Button("OK")  { }
         },
                message: {
-            if let message = vmUser.errorUpdateMessage {
+            if let message = vm.errorUpdateMessage {
                 Text(message)
             }
         })
@@ -87,47 +91,18 @@ struct UpdateUserInfoView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.automatic) // MARK: fix when adding the map
     }
-        
-        
-        
-    var nameField: some View {
-        
-        TextField("Full-name", text: $fullNameInput)
-            .padding()
-            .background(.ultraThinMaterial)
-            .clipShape(.capsule)
-        
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled()
-    }
     
-    var addressField: some View {
-        TextField("Address", text: $addressInput)
-            .padding()
-            .background(.ultraThinMaterial)
-            .clipShape(.capsule)
+    var isValidInput: Bool {
         
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled()
-    }
-    
-    var phoneField: some View {
-        TextField("Phone Number", text: $phoneNumberInput)
-            .padding()
-            .background(.ultraThinMaterial)
-            .clipShape(.capsule)
-            .textInputAutocapitalization(.never)
-            .keyboardType(.numberPad)
-    }
-    
-    var birthdayField: some View {
-        DatePicker(selection: $birthdayInput, in: ...Date.now, displayedComponents: .date) {
-            Text("Birthday")
-                .fontWeight(.semibold)
+        if (fullNameInput.isEmpty ||
+            phoneNumberInput.isEmpty ||
+            addressInput.isEmpty
+        ) {
+            return false
         }
-        .tint(.button)
+        return true
     }
-    
+
     var map: some View {
         Map (position: $vmMap.camera ) {
             
@@ -169,11 +144,10 @@ struct UpdateUserInfoView: View {
             // MARK: - Update user information
             
             Task {
-                await vmUser.updateProfile(
+                await vm.updateProfile(
                     fullname: fullNameInput,
                     phoneNumber: phoneNumberInput,
                     address: addressInput,
-                    birthday: birthdayInput,
                     latitude: vmMap.coordinate.latitude.magnitude,
                     longitude: vmMap.coordinate.longitude.magnitude)
             }
@@ -185,18 +159,20 @@ struct UpdateUserInfoView: View {
                 .font(.title2)
                 .foregroundStyle(.white)
                 .fontWeight(.bold)
-                .background(.button)
+                .background(isValidInput ? .button : .secondary)
                 .clipShape(.rect(cornerRadius: 15))
-                
+                .disabled(!isValidInput)
+                .opacity(isValidInput ? 1 : 0.5)
         }
-        .padding(.vertical, 20)
+        
+        
     }
 
 }
 
 #Preview {
     
-    @StateObject var vmUser = UserViewModel()
+    @StateObject var vmUser = ViewModel()
     @StateObject var vmMap = MapViewModel()
     return NavigationStack {
         UpdateUserInfoView()

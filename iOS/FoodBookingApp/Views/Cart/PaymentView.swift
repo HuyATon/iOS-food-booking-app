@@ -9,9 +9,10 @@ import SwiftUI
 
 struct PaymentView: View {
     
-    @State var animateGradient = false
+    @State private var animateGradient = false
+    
+    @EnvironmentObject var vm: ViewModel
     @EnvironmentObject var vmCart: CartViewModel
-    @EnvironmentObject var vmUser: UserViewModel
     
     var body: some View {
         VStack {
@@ -25,12 +26,13 @@ struct PaymentView: View {
             Divider()
             HStack {
                 
-                Text("Sub Total:")
+                Text("Total:")
                     .font(.title2)
                 Spacer()
                 Text("$\(vmCart.totalPrice)")
                     .font(.title)
                     .fontWeight(.bold)
+                    .monospaced()
             }
             
             
@@ -45,11 +47,10 @@ struct PaymentView: View {
             .font(.title2)
             .fontWeight(.semibold)
             .padding()
-            .background(Color.button)
+            .background(vm.isValidProfile ? Color.button : .secondary)
             .clipShape(.rect(cornerRadius: 15))
-            
-            Spacer(minLength: 70)
-            
+            .disabled(!vm.isValidProfile)
+            .opacity(vm.isValidProfile ? 1 : 0.7)
             
         }
         .alert(
@@ -75,6 +76,14 @@ struct PaymentView: View {
         )
         .navigationTitle("Shopping Cart")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            withAnimation(.snappy) {
+                vm.hideTabBar()
+            }
+        }
+        .onDisappear {
+            vm.displayTabBar()
+        }
     }
     
     
@@ -83,19 +92,19 @@ struct PaymentView: View {
             HStack {
                 Label("Full-name:", systemImage: "person")
                     .fontWeight(.semibold)
-                Text(vmUser.user?.username ?? "...")
+                Text(vm.user?.username ?? "...")
                 Spacer()
             }
             HStack {
                 Label("Address:", systemImage: "map")
                     .fontWeight(.semibold)
-                Text(vmUser.user?.address ?? "...")
+                Text(vm.user?.address ?? "...")
                 Spacer()
             }
             HStack {
                 Label("Phone:", systemImage: "phone")
                     .fontWeight(.semibold)
-                Text(vmUser.user?.phoneNumber ?? "...")
+                Text(vm.user?.phoneNumber ?? "...")
                 Spacer()
             }
         }
@@ -107,7 +116,7 @@ struct PaymentView: View {
 
 #Preview {
     @StateObject var vmCart = CartViewModel()
-    @StateObject var vmUser = UserViewModel()
+    @StateObject var vmUser = ViewModel()
 
     return NavigationStack {
         PaymentView()

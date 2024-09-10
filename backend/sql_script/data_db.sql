@@ -19,4 +19,3 @@ VALUES
 (1, 'Pepsi', 'pepsi', 'Drinks', 'Classic cola beverage.', 2),
 (1, 'Black Coffee', 'coffee', 'Drinks', 'Full of caffeine.', 2),
 (1, 'Ice Cream', 'ice_cream', 'Dessert', 'Full of sweetness and chocolate flavor.', 2);
-

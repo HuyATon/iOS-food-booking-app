@@ -23,7 +23,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate  {
     
     func isLocationServiceEnable()  {
         
-        if CLLocationManager.locationServicesEnabled() {
+        if CLLocationManager.locationServicesEnabled(){
             
             locationManager = CLLocationManager() // call locationManagerDidChangeAuthorization() when create CLLocationManager automatically
             locationManager!.delegate = self
@@ -37,6 +37,9 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate  {
     }
     
     private func checkLocationAuthorization() {
+        
+    
+        
         guard let locationManager = locationManager else { return }
         
         switch locationManager.authorizationStatus {
@@ -49,11 +52,12 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate  {
                 print("Location is denied")
             case .authorizedAlways, .authorizedWhenInUse:
                 // access and set to user location
-            print("Location is allowed")
-            camera = .region(MKCoordinateRegion(center: locationManager.location!.coordinate,
-                                                        span: .initialSpan))
-            coordinate = locationManager.location!.coordinate
-            
+                print("Location is allowed")
+                
+                camera = .region(MKCoordinateRegion(center: locationManager.location!.coordinate,
+                                                            span: .initialSpan))
+                coordinate = locationManager.location!.coordinate
+                            
             @unknown default:
                 break
         }

@@ -11,7 +11,7 @@ const router = express.Router()
 router.use("/auth", authRoutes)
 router.use("/profile" ,profileRoutes)
 router.use("/restaurants", restaurantsRoutes)
-router.use("/menuItems", menuItemsRoutes)
+router.use("/menu-items", menuItemsRoutes)
 router.use("/booking", bookingRoutes)
 
 

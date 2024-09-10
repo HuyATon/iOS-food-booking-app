@@ -40,6 +40,7 @@ struct DraggablePin: View {
                     }
                 }
         }
+
         .contentShape(.rect)
         .frame(width: 30, height: 40)
         .animation(.snappy, body: {
@@ -100,12 +101,6 @@ struct ChangeLocationView: View {
                 // MARK: Update camera span of this View when user zoom
                 vmMap.updateMapSpan(ctx.region.span)
             }
-            
-            .tint(Color.red.gradient)
-            .mapControls {
-                MapUserLocationButton()
-            }
-            .ignoresSafeArea()
         }
     }
 }

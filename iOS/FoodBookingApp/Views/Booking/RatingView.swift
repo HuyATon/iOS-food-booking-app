@@ -9,39 +9,45 @@ import SwiftUI
 
 struct RatingView: View {
     
-    @EnvironmentObject var vmBooking: BookingViewModel
+    @EnvironmentObject private var vm: ViewModel
+    @EnvironmentObject private var vmBooking: BookingViewModel
     @State private var text = ""
     @State private var rating = 5
     
     
-    let order: Order
+    private let order: Order
+    
+    init(order: Order) {
+        self.order = order
+    }
     
     
     var body: some View {
-        VStack (alignment: .leading, spacing: 30) {
-            Text("Feedback").font(.title).bold()
-            
-            itemInformation
-            
-            Text("👋 How Was Your Experience?").font(.headline)
-            
-            ratingSelectionField
-            
-            reviewField
- 
-            Spacer()
-            
-            reviewButton
-            
-            Spacer(minLength: 70)
-        }
-        .padding()
-        .background(.ultraThinMaterial)
-        .overlay {
-            if vmBooking.isLoading {
-                ProgressView()
+            VStack (alignment: .leading, spacing: 30) {
+                Text("Feedback").font(.title).bold()
+                
+                itemInformation
+                
+                Text("👋 How Was Your Experience?").font(.headline)
+                
+                ratingSelectionField
+                
+                reviewField
+             
+                
+                Spacer()
+                
+                reviewButton
             }
-        }
+            .padding()
+            .background(.ultraThinMaterial)
+            .overlay {
+                if vmBooking.isLoading {
+                    ProgressView()
+                }
+            }
+        
+        
         .alert(
             "Feedback Message",
             isPresented: $vmBooking.showAlert,
@@ -52,12 +58,36 @@ struct RatingView: View {
                 }
             }
         )
+        
+        .onAppear {
+            withAnimation(.snappy) {
+                vm.hideTabBar()
+            }
+        }
+        .onDisappear {
+            vm.displayTabBar()
+        }
     }
     
     
     var itemInformation: some View {
         HStack (alignment: .top, spacing: 20) {
             
+//            AsyncImage(url: URL(string: order.image)!) { image in
+//            
+//                image
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(width: 70, height: 70)
+//                    .shadow(color: .black, radius: 4)
+//                    .padding()
+//                    .background(.ultraThickMaterial)
+//                    .overlay {
+//                        RoundedRectangle(cornerRadius: 10).stroke()
+//                    }
+//            } placeholder: {
+//                ProgressView()
+//            }
             Image(order.image)
                 .resizable()
                 .scaledToFit()
@@ -117,25 +147,31 @@ struct RatingView: View {
     
     var reviewField: some View {
         TextEditor(text: $text)
-                        .frame(height: 200)
-                        .overlay (alignment: .topLeading) {
-                            if text.isEmpty {
-                                Text("Share your experience...").fontWeight(.ultraLight)
-                                    .offset(x: 7, y: 7)
-                            
-                            }
-                        }
-                        .padding()
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 20).stroke()
-                        }
-                        .background(.white)
+            .autocorrectionDisabled()
+            .textInputAutocapitalization(.never)
+            .font(.caption)
+            .monospaced()
+            .scrollDismissesKeyboard(.immediately)
+            .frame(height: 100)
+            .overlay (alignment: .topLeading) {
+                if text.isEmpty {
+                    Text("Share your experience...").fontWeight(.ultraLight)
+                        .offset(x: 7, y: 7)
+                
+                }
+            }
+            .padding()
+            .overlay {
+                RoundedRectangle(cornerRadius: 20).stroke()
+            }
+            .background(.white)
     }
 }
 
 #Preview {
     NavigationStack {
         RatingView(order: Order(menuItemId: 1, itemName: "Coffee", image: "coffee", price: 15, quantity: 1))
-            .fontDesign(.monospaced)
+            .environmentObject(ViewModel())
+            .environmentObject(BookingViewModel())
     }
 }

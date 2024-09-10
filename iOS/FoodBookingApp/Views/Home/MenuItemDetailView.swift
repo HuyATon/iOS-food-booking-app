@@ -12,8 +12,9 @@ struct MenuItemDetailView: View {
     
     var menuItem: MenuItem
     
-    @State var animateGradient = false
+    @State private var animateGradient = false
     
+    @EnvironmentObject var vm: ViewModel
     @EnvironmentObject var vmCart: CartViewModel
     @EnvironmentObject var vmItems: ItemsViewModel
     
@@ -34,19 +35,23 @@ struct MenuItemDetailView: View {
                         feedbacks
                     }
                 }
+                .scrollIndicators(.hidden)
                 Divider()
   
                 addToCartButton
-
-          
-                
-                Spacer(minLength: 70)
-                
             }
             .padding(25)
             .background(.ultraThickMaterial)
             .clipShape(.rect(cornerRadius: 50))
             .ignoresSafeArea()
+        }
+        .onAppear {
+            withAnimation(.snappy) {
+                vm.hideTabBar()
+            }
+        }
+        .onDisappear {
+            vm.displayTabBar()
         }
     
         .alert(
@@ -68,7 +73,7 @@ struct MenuItemDetailView: View {
         
     
     
-    var title: some View {
+    private var title: some View {
         VStack (spacing: 0) {
             HStack {
                 Text(menuItem.name)
@@ -85,16 +90,27 @@ struct MenuItemDetailView: View {
         }
     }
     
-    var itemImage: some View {
-        Image(menuItem.image)
-            .resizable()
-            .scaledToFit()
-            .frame(height: 200)
-            .padding(.vertical, 20)
-            .shadow(color: .black, radius: 7, x:4, y:4)
+    private var itemImage: some View {
+//        AsyncImage(url: URL(string: menuItem.image)!) { image in
+//        
+//                image
+//                .resizable()
+//                .scaledToFit()
+//                .frame(height: 200)
+//                .padding(.vertical, 20)
+//                .shadow(color: .black, radius: 7, x:4, y:4)
+//        } placeholder: {
+//            ProgressView()
+//        }
+        Image(self.menuItem.image)
+        .resizable()
+        .scaledToFit()
+        .frame(height: 200)
+        .padding(.vertical, 20)
+        .shadow(color: .black, radius: 7, x:4, y:4)
     }
     
-    var description: some View {
+    private var description: some View {
         HStack {
             
             HStack {
@@ -121,7 +137,7 @@ struct MenuItemDetailView: View {
     }
     
     
-    var restaurantDetail: some View {
+    private var restaurantDetail: some View {
         VStack(alignment: .leading) {
             Label(menuItem.restaurantName, systemImage: "mappin")
                 .font(.headline)
@@ -135,7 +151,7 @@ struct MenuItemDetailView: View {
     }
     
     
-    var detail: some View {
+    private var detail: some View {
         VStack(alignment: .leading) {
             Label("Detail", systemImage: "square.and.pencil")
                 .font(.headline)
@@ -148,7 +164,7 @@ struct MenuItemDetailView: View {
         }
     }
     
-    var feedbacks: some View {
+    private var feedbacks: some View {
         
         DisclosureGroup {
          
@@ -169,7 +185,7 @@ struct MenuItemDetailView: View {
                 }
             }
         } label: {
-            Label("View Feedbacks", systemImage: "person.3.sequence")
+            Label("View Feedbacks", systemImage: "person.2.wave.2")
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundStyle(.black)
@@ -179,7 +195,7 @@ struct MenuItemDetailView: View {
     }
     
     
-    var addToCartButton: some View {
+    private var addToCartButton: some View {
         Button {
             vmCart.addItem(CartItem(menuItem: self.menuItem))
         } label: {

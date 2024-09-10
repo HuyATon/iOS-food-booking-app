@@ -13,7 +13,6 @@ struct UpdateRequestBody: Codable {
 
     let fullname: String
     let phoneNumber: String
-    let birthday: String
     let latitude: Double
     let longitude: Double
     let address: String
@@ -42,22 +41,16 @@ class UserProfileService {
         fullname: String,
         phoneNumber: String,
         address: String,
-        birthday: Date,
         latitude: Double,
         longitude: Double
                        
     ) async throws -> String {
-        // localhost:3000/profile/abc (abc = username)
 
-        let dayFormatter = DateFormatter()
-        dayFormatter.dateFormat = "yyyy-MM-dd"
-        
-        let formattedBirthday = dayFormatter.string(from: birthday)
         
         guard let url = URL(string: Constants.API.baseURL + "/profile/\(username)") else {
             throw NetworkError.invalidURL
         }
-        let requestBody = UpdateRequestBody( fullname: fullname, phoneNumber: phoneNumber, birthday: formattedBirthday, latitude: latitude, longitude: longitude, address: address)
+        let requestBody = UpdateRequestBody( fullname: fullname, phoneNumber: phoneNumber, latitude: latitude, longitude: longitude, address: address)
         
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
@@ -78,7 +71,7 @@ class UserProfileService {
         guard let decodedData = try? decoder.decode(UpdateResponse.self, from: data) else {
             throw NetworkError.failedDecoding
         }
-        
+        print("Status code:", response.statusCode)
         switch response.statusCode {
         case 200:
             return decodedData.message

@@ -10,18 +10,17 @@ export const updateProfile = async (req, res) => {
     try {
         console.log(req.body)
         const { username } = req.params
-        const { fullname, phoneNumber, birthday, latitude, longitude, address } = req.body
+        const { fullname, phoneNumber, latitude, longitude, address } = req.body
 
         const result = await database.query(
             `UPDATE "Users"
             SET fullname = $1,
                 phone_number = $2,
-                birth_day = $3,
-                longitude = $4,
-                latitude = $5,
-                address = $6
-            WHERE username = $7`,
-            [fullname, phoneNumber, birthday, longitude, latitude, address, username]
+                longitude = $3,
+                latitude = $4,
+                address = $5
+            WHERE username = $6`,
+            [fullname, phoneNumber, longitude, latitude, address, username]
         )
         if (result.rowCount === 1) {
             res.status(200).json({

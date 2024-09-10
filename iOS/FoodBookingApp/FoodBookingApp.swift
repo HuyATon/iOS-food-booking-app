@@ -11,29 +11,27 @@ import MapKit
 @main
 struct FoodBookingApp: App {
     
-    @StateObject var vmUser = UserViewModel()
-    @StateObject var vmMap = MapViewModel()
-    @StateObject var vmCart = CartViewModel()
-    @StateObject var vmItems = ItemsViewModel()
-    @StateObject var vmBooking = BookingViewModel()
+    @StateObject private var vm = ViewModel()
+    @StateObject private var vmMap = MapViewModel()
+    @StateObject private var vmCart = CartViewModel()
+    @StateObject private var vmItems = ItemsViewModel()
+    @StateObject private var vmBooking = BookingViewModel()
     
-    @StateObject var router = Router()
     
     
     var body: some Scene {
         WindowGroup {
             
-            switch vmUser.authenticationStatus {
+            switch vm.authenticationStatus {
                 
             case .valid:
                 MainView()
-                    .environmentObject(vmUser)
+                    .environmentObject(vm)
                     .environmentObject(vmMap)
                     .environmentObject(vmCart)
                     .environmentObject(vmItems)
                     .environmentObject(vmBooking)
-                    .environmentObject(router)
-                    .fontDesign(.monospaced)
+                    .fontDesign(.rounded)
                     .tint(Color.button)
                     .onAppear {
                         // MARK: Asking user location
@@ -42,11 +40,12 @@ struct FoodBookingApp: App {
                     
             default:
                 LoginView()
-                    .environmentObject(vmUser)
-                    .fontDesign(.monospaced)
+                    .environmentObject(vm)
+                    .fontDesign(.rounded)
                     .tint(Color.button)
             }
         }
+    
         
     }
     

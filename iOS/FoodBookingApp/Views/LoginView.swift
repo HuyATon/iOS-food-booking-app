@@ -9,14 +9,14 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @EnvironmentObject var vmUser: UserViewModel
+    @EnvironmentObject var vmUser: ViewModel
     
-    @State var usernameInput = ""
-    @State var passwordInput = ""
-    @State var visible = false
-    @State var animateGradient = false
+    @State private var usernameInput = ""
+    @State private var passwordInput = ""
+    @State private var visible = false
+    @State private var animateGradient = false
     
-        
+    
     var body: some View {
        
         NavigationStack {
@@ -116,7 +116,7 @@ struct LoginView: View {
         .foregroundStyle(.white)
     }
     
-    var passwordField: some  View {
+    private var passwordField: some  View {
         HStack {
             Image(systemName: "lock.fill")
                 .foregroundStyle(.white)
@@ -167,7 +167,9 @@ struct LoginView: View {
             else {
                 Task {
                     await vmUser.login(username: usernameInput, password: passwordInput)
+                    self.resetInput()
                 }
+                
             }
         } label: {
             Text("Sign In")
@@ -193,11 +195,16 @@ struct LoginView: View {
             .fontWeight(.semibold)
         }
     }
+    
+    private func resetInput() {
+        usernameInput = ""
+        passwordInput = ""
+    }
 }
 
 #Preview {
     
-    @StateObject var vmUser = UserViewModel()
+    @StateObject var vmUser = ViewModel()
     return LoginView()
         .environmentObject(vmUser)
 }

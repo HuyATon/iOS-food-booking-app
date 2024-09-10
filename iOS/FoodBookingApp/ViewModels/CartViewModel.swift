@@ -11,7 +11,7 @@ import Foundation
 @MainActor
 class CartViewModel: ObservableObject {
     
-    @Published var cartItems: [CartItem] = []
+    @Published var cartItems = [CartItem]()
     
     @Published var showAlert = false
     @Published var alertMessage: String?
@@ -19,6 +19,7 @@ class CartViewModel: ObservableObject {
     
     @Published var showCheckOutAlert = false
     @Published var checkOutMessage: String?
+    
     
     
     var totalPrice: Int {

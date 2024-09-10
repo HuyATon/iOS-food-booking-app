@@ -14,8 +14,23 @@ struct CustomMenuItem: View {
     var body: some View {
         
         VStack {
-            Image(menuItem.image)
+//            MARK: This is used in deployment
+//            AsyncImage(url: URL(string: menuItem.image)!) { image in
+//                
+//                image
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(width: 80, height: 80)
+//                    .shadow(color: .black, radius: 2)
+//                    .padding()
+//                    .background(.ultraThinMaterial)
+//                    .clipShape(.rect(cornerRadius: 20))
+//                
+//            } placeholder: {
+//                ProgressView()
+//            }
             
+            Image(menuItem.image)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 80, height: 80)
@@ -23,6 +38,7 @@ struct CustomMenuItem: View {
                 .padding()
                 .background(.ultraThinMaterial)
                 .clipShape(.rect(cornerRadius: 20))
+            
                 
                 
             Text(menuItem.name)
