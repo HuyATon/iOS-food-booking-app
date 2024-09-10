@@ -10,7 +10,7 @@ import SwiftUI
 struct CartView: View {
     
     @EnvironmentObject var vmCart: CartViewModel
-    @State var animateGradient = false
+    @State private var animateGradient = false
     
     var body: some View {
         
@@ -52,11 +52,9 @@ struct CartView: View {
                 .clipShape(.rect(cornerRadius: 20))
                 .padding(.bottom, 20)
                 
-                
                 checkOutButton
                 
             }
-            .fontDesign(.rounded)
             .padding()
             .background(
                 LinearGradient(gradient: Gradient(colors: [.gradientColor1, .gradientColor2]), startPoint: .topLeading, endPoint: .bottomTrailing)
@@ -86,7 +84,7 @@ struct CartView: View {
            PaymentView()
         } label: {
                 VStack {
-                    Text("Total Bill:")
+                    Text("Total:")
                         .font(.title2)
                         .fontWeight(.light)
 
@@ -96,6 +94,7 @@ struct CartView: View {
                 Text("$\(vmCart.totalPrice)")
                     .font(.title)
                     .fontWeight(.semibold)
+                    .monospaced()
                 
                 Image(systemName: "chevron.right")
                     .symbolEffect(.pulse)

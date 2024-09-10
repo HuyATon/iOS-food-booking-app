@@ -10,18 +10,17 @@ import MapKit
 
 struct ContentView: View {
     
-    @EnvironmentObject var vmUser: UserViewModel
+    @EnvironmentObject var vmUser: ViewModel
     @EnvironmentObject var vmMap: MapViewModel
     @EnvironmentObject var vmCart : CartViewModel
     @EnvironmentObject var vmItems: ItemsViewModel
     @EnvironmentObject var vmBooking: BookingViewModel
     
     
-    @EnvironmentObject var router: Router
     
     var body: some View {
         
-        NavigationStack(path: $router.path) {
+        NavigationStack {
             
             switch vmUser.authenticationStatus {
 
@@ -48,11 +47,10 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(UserViewModel())
+        .environmentObject(ViewModel())
         .environmentObject(MapViewModel())
         .environmentObject(CartViewModel())
         .environmentObject(ItemsViewModel())
         .environmentObject(BookingViewModel())
-        .environmentObject(Router()) 
         
 }

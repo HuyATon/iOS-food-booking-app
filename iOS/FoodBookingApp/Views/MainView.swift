@@ -10,6 +10,7 @@ import MapKit
 
 struct MainView: View {
         
+    @EnvironmentObject var vm: ViewModel
     @EnvironmentObject var vmCart: CartViewModel
     @EnvironmentObject var vmItems: ItemsViewModel
     
@@ -41,8 +42,10 @@ struct MainView: View {
                     .tag(Tab.profile)
             }
             .overlay(alignment: .bottom) {
-                CustomTabBar(currentTab: $currentTab, numberOfCartItems: vmCart.cartItems.count)
-                    .frame(alignment: .bottom)
+                if !vm.goInside {
+                    CustomTabBar(currentTab: $currentTab)
+                        .frame(alignment: .bottom)
+                }
             }
             .ignoresSafeArea()
     }

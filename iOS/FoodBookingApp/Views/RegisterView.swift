@@ -11,40 +11,38 @@ struct RegisterView: View {
     
     @StateObject var vmRegister =  RegisterViewModel()
     
-    @State var inputUsername: String = ""
-    @State var inputPassword: String = ""
-    @State var inputRetypePassword: String = ""
-    @State var inputEmail: String = ""
-    @State var visible = false
+    @State private var inputUsername: String = ""
+    @State private var inputPassword: String = ""
+    @State private var inputRetypePassword: String = ""
+    @State private var inputEmail: String = ""
 
-    @State var animateGradient = false
+    @State private var animateGradient = false
    
     var body: some View {
-            VStack {
-                    Spacer()
+        VStack {
                     welcomeTitle
                 
                     askingTitle
                     
-                    usernameField
+                    VStack(alignment: .leading) {
+                        InputField(text: $inputUsername, systemIcon: "person.fill", placeholder: "Username")
+                            .foregroundStyle(.white)
 
-                    if visible{
-                        
-                        visiblePasswordField
-                    }
-                    else {
-                        
-                        unvisiblePasswordField
-                    }
 
-                    emailField
-                
+                            
+                        SecuredInputField(text: $inputPassword, systemIcon: "lock.fill", placeholder: "Password")
+                        SecuredInputField(text: $inputRetypePassword, systemIcon: "lock.fill", placeholder: "Confirm Password")
+                        
+
+                        InputField(text: $inputEmail, systemIcon: "envelope.fill", placeholder: "Email")
+                    }
+                    .foregroundStyle(.white)
+
                     Spacer()
 
                     submitButton
-                
-                    Spacer()
             }
+        .ignoresSafeArea(.keyboard, edges: .all)
             .padding()
             .background {
                 LinearGradient(gradient: Gradient(colors: [.gradientColor1, .gradientColor2]), startPoint: .topLeading, endPoint: .bottomTrailing)
@@ -77,7 +75,6 @@ struct RegisterView: View {
                   }
             )
             
-            .ignoresSafeArea()
     }
     
     private var welcomeTitle: some View {
@@ -93,98 +90,7 @@ struct RegisterView: View {
             .padding(.bottom, 20)
             .foregroundStyle(.white)
     }
-    
-    private var usernameField: some View {
-        HStack {
-            Image(systemName: "person.fill")
-            TextField("Username", text: $inputUsername)
-        }
-        .padding()
-        .background(.ultraThinMaterial)
-        .clipShape(.capsule)
-        .textInputAutocapitalization(.never)
-        .autocorrectionDisabled()
-        .foregroundStyle(.white)
-    }
-    
-    private var visiblePasswordField: some View {
-        VStack {
-            HStack {
-                Image(systemName: "lock.fill")
-                TextField("Password", text: $inputPassword)
-                showPasswordButton
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-            }
-                .padding()
-                .background(.ultraThinMaterial)
-                .foregroundStyle(.white)
-                .clipShape(.capsule)
-                
-            HStack {
-                Image(systemName: "lock.fill")
-                TextField("Re-type Password", text: $inputRetypePassword)
-                showPasswordButton
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-                
-            }
-                .padding()
-                .background(.ultraThinMaterial)
-                .foregroundStyle(.white)
-                .clipShape(.capsule)
-        }
-    }
-    
-    private var unvisiblePasswordField: some View {
-        VStack {
-            HStack {
-                Image(systemName: "lock.fill")
-                SecureField("Password", text: $inputPassword)
-                showPasswordButton
-            }
-            
-                .padding()
-                .background(.ultraThinMaterial)
-                .foregroundStyle(.white)
-                .clipShape(.capsule)
-            
-            HStack {
-                Image(systemName: "lock.fill")
-                SecureField("Re-type assword", text: $inputRetypePassword)
-                showPasswordButton
-            }
-                .padding()
-                .background(.ultraThinMaterial)
-                .foregroundStyle(.white)
-                .clipShape(.capsule)
-        }
-    }
-    
-    private var showPasswordButton: some View {
-        Button {
-            withAnimation (.smooth(duration: 0.1)) {
-                visible.toggle()
-            }
-        } label: {
-            Image(systemName: "eye.fill")
-                .foregroundStyle(.white)
-            
-        }
-    }
-    
-    private var emailField: some View {
-        HStack {
-            Image(systemName: "envelope.fill")
-            TextField("Email", text: $inputEmail)
-        }
-            .padding()
-            .background(.ultraThinMaterial)
-            .foregroundStyle(.white)
-            .clipShape(.capsule)
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled()
-    }
+
     
     private var submitButton: some View {
         Button {
@@ -223,5 +129,5 @@ struct RegisterView: View {
 
 #Preview {
     RegisterView()
-        .environmentObject(UserViewModel())
+        .environmentObject(ViewModel())
 }

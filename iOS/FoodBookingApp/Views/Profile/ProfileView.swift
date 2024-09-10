@@ -10,9 +10,9 @@ import MapKit
 
 struct ProfileView: View {
     
-    @EnvironmentObject var vmUser : UserViewModel
+    @EnvironmentObject var vm : ViewModel
     @EnvironmentObject var vmMap: MapViewModel
-    @State var animateGradient = false
+    @State private var animateGradient = false
     
     var body: some View {
         NavigationStack {
@@ -29,7 +29,7 @@ struct ProfileView: View {
                         .frame(width: geo.size.width / 3, height:  geo.size.width / 3)
                         .shadow(color: .black, radius: 5)
                     
-                    Text(vmUser.user?.username ?? "...")
+                    Text(vm.user?.username ?? "...")
                         .font(.title3)
                         .fontWeight(.semibold)
                     
@@ -49,10 +49,10 @@ struct ProfileView: View {
                         VStack (alignment: .leading, spacing: 15) {
                             
                             
-                            Text(vmUser.user?.fullname ?? "...")
-                            Text(vmUser.user?.phoneNumber ?? "...")
-                            Text(vmUser.user?.address ?? "...")
-                            Text(vmUser.user?.email ?? "...")
+                            Text(vm.user?.fullname ?? "...")
+                            Text(vm.user?.phoneNumber ?? "...")
+                            Text(vm.user?.address ?? "...")
+                            Text(vm.user?.email ?? "...")
                             
                         }
                         
@@ -69,17 +69,25 @@ struct ProfileView: View {
                     
                 }
                 .overlay(alignment: .topTrailing) {
-                    
-                    NavigationLink {
-                        UpdateUserInfoView()
-                            .environmentObject(vmUser)
-                            .environmentObject(vmMap)
+                    Menu {
+                        
+                        NavigationLink {
+                            UpdateUserInfoView()
+                        } label: {
+                            Label("Edit Profile", systemImage: "square.and.pencil")
+                        }
+                        
+                        Button {
+                            vm.signOut()
+                        } label: {
+                            Label("Sign Out", systemImage: "door.left.hand.open")
+                                .foregroundStyle(.red)
+                                .bold()
+                        }
+                        
                     } label: {
-                        Image(systemName: "square.and.pencil")
-                            .fontWeight(.semibold)
-                            .font(.title2)
+                        Image(systemName: "person.circle")
                             .foregroundStyle(.black)
-                            .symbolEffect(.pulse)
                     }
                     
                     
@@ -88,6 +96,26 @@ struct ProfileView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .fontDesign(.rounded)
                 
+            }
+            .onAppear {
+                vm.displayTabBar()
+                
+                
+                
+                if let long = vm.user?.longitude, let lat = vm.user?.latitude {
+                    
+                    print("User long/lat", long, lat)
+                    
+                    vmMap.updateCamera(region: MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: long), span: .initialSpan))
+                    
+                    vmMap.updateCoordinate(CLLocationCoordinate2D(latitude: lat, longitude: long))
+                    
+                    print("Updated location from database")
+                }
+                else {
+                    vmMap.isLocationServiceEnable()
+                }
+       
             }
             
             .background(
@@ -132,7 +160,7 @@ struct ProfileView: View {
 
 #Preview {
     
-    @StateObject var vmUser = UserViewModel()
+    @StateObject var vmUser = ViewModel()
     @State var vmMap = MapViewModel()
     return ProfileView()
         .environmentObject(vmUser)

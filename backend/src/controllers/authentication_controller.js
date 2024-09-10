@@ -23,10 +23,12 @@ export const login = async (req, res) => {
                         res.json({
                             token: token,
                             username: username,
-                            fullname: foundUser.fullname || "",
-                            phoneNumber: foundUser.phone_number || "",
-                            address: foundUser.address || "",
-                            email: foundUser.email || "",
+                            fullname: foundUser.fullname,
+                            phoneNumber: foundUser.phone_number,
+                            address: foundUser.address,
+                            email: foundUser.email,
+                            latitude: foundUser.latitude,
+                            longitude: foundUser.longitude
                         })
                     } else {
                         res.json({

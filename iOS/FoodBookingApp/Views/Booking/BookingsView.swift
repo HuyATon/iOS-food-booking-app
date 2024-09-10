@@ -9,8 +9,8 @@ import SwiftUI
 
 struct BookingsView: View {
     
-    @State var animateGradient = false
-    @EnvironmentObject var vmBooking: BookingViewModel
+    @State private var animateGradient = false
+    @EnvironmentObject private var vmBooking: BookingViewModel
 
     
     var body: some View {
@@ -45,7 +45,6 @@ struct BookingsView: View {
                                     } label: {
                                         Text("Send Feedback")
                                             .bold()
-                                            .fontDesign(.monospaced)
                                             .foregroundStyle(.white)
                                             .font(.caption)
                                             .padding(5)
@@ -57,7 +56,7 @@ struct BookingsView: View {
 
                                 Divider()
                                 HStack {
-                                    Text("Sub Total:").bold()
+                                    Text("Total:").bold()
                                     Spacer()
                                     Text("$\(booking.getTotalPrice())").bold()
                                 }

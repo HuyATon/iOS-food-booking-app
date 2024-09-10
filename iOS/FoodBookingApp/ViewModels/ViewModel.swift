@@ -17,7 +17,7 @@ enum AuthenticationStatus {
 
 
 @MainActor
-class UserViewModel: ObservableObject {
+class ViewModel: ObservableObject {
     
     @Published var user: User?
     @Published var isLoading = false
@@ -31,7 +31,26 @@ class UserViewModel: ObservableObject {
     
     @Published var showUpdateAlert = false
     @Published var errorUpdateMessage: String?
+    
+    @Published var goInside = false
 
+    var isValidProfile: Bool {
+        if (user?.fullname == nil ||
+            user?.address == nil ||
+            user?.phoneNumber == nil
+        ) {
+            return false
+        }
+        return true
+    }
+    
+    func hideTabBar() {
+        goInside = true
+    }
+    
+    func displayTabBar() {
+        goInside = false
+    }
     
     func login(username: String, password: String) async  {
         
@@ -59,7 +78,6 @@ class UserViewModel: ObservableObject {
         fullname: String,
         phoneNumber: String,
         address: String,
-        birthday: Date,
         latitude: Double,
         longitude: Double
                        
@@ -82,7 +100,6 @@ class UserViewModel: ObservableObject {
                 fullname: fullname,
                 phoneNumber: phoneNumber,
                 address: address,
-                birthday: birthday,
                 latitude: latitude,
                 longitude: longitude)
             
@@ -105,6 +122,12 @@ class UserViewModel: ObservableObject {
             self.showUpdateAlert = true
             self.errorUpdateMessage = error.localizedDescription
         }
+    }
+    
+    func signOut() {
+        
+        user = nil
+        authenticationStatus = .invalid
     }
 
     

@@ -52,7 +52,7 @@ class ItemsViewModel: ObservableObject {
     func fetchRestaurantsAndMenuItems() async {
         
         let fetchRestaurantsService = FetchService(fetchURL: Constants.API.baseURL + "/restaurants")
-        let fetchItemsService = FetchService(fetchURL: Constants.API.baseURL + "/menuItems")
+        let fetchItemsService = FetchService(fetchURL: Constants.API.baseURL + "/menu-items")
                                                   
         self.isLoading.toggle()
         
@@ -83,7 +83,7 @@ class ItemsViewModel: ObservableObject {
             isLoading.toggle()
         }
         
-        let fetcher = FetchService(fetchURL: Constants.API.baseURL + "/menuItems/feedbacks/\(item.id)")
+        let fetcher = FetchService(fetchURL: Constants.API.baseURL + "/menu-items/\(item.id)/feedbacks")
         print(fetcher.fetchURL)
         
         do {

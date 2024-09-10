@@ -16,13 +16,26 @@ struct CartSection: View {
 
         VStack (alignment: .leading, spacing: 0) {
             HStack {
-                        Image(cartItem.menuItem.image)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 60, height: 60)
-                            .shadow(color: .black, radius: 5)
-                            .padding(.bottom, 20)
-                            .padding(.leading, 10)
+//              MARK: This is used for deployment
+//                AsyncImage(url: URL(string: cartItem.menuItem.image)!) { image in
+//                
+//                    image
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(width: 60, height: 60)
+//                        .shadow(color: .black, radius: 5)
+//                        .padding(.bottom, 20)
+//                        .padding(.leading, 10)
+//                } placeholder: {
+//                    ProgressView()
+//                }
+                Image(cartItem.menuItem.image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .shadow(color: .black, radius: 5)
+                    .padding(.bottom, 20)
+                    .padding(.leading, 10)
                     
                         Spacer(minLength: 20)
                 

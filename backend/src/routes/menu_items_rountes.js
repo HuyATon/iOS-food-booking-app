@@ -5,6 +5,6 @@ import { getAllMenuItems, getMenuItemById, getFeedbacksById } from "../controlle
 
 router.get("/", getAllMenuItems)
 router.get("/:id", getMenuItemById)
-router.get("/feedbacks/:id", getFeedbacksById)
+router.get("/:id/feedbacks", getFeedbacksById)
 
 export default router 

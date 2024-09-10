@@ -11,6 +11,7 @@ import Foundation
 
 struct Order: Codable, Hashable {
     
+    
     let menuItemId: Int
     let itemName: String
     let image: String

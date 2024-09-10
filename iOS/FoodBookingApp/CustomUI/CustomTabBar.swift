@@ -46,7 +46,7 @@ struct CustomTabBar: View {
     
     @Binding var currentTab: Tab
     
-    let numberOfCartItems: Int
+//    let numberOfCartItems: Int
     
     var body: some View {
         VStack {
@@ -62,17 +62,17 @@ struct CustomTabBar: View {
                             Image(systemName: currentTab == tab ? tab.filledIcon : tab.icon)
                                 .frame(maxWidth: .infinity)
                                 .font(.title)
-                                .overlay (alignment: .topTrailing){
-                                    if tab == .cart {
-                                        Text(numberOfCartItems, format: .number)
-                                            .font(.caption2)
-                                            .foregroundStyle(.white)
-                                            .padding(5)
-                                            .background(Circle().fill(.red))
-                                            .offset(x: -32, y: -12)
-                                           
-                                    }
-                                }
+//                                .overlay (alignment: .topTrailing){
+//                                    if tab == .cart {
+//                                        Text(numberOfCartItems, format: .number)
+//                                            .font(.caption2)
+//                                            .foregroundStyle(.white)
+//                                            .padding(5)
+//                                            .background(Circle().fill(.red))
+//                                            .offset(x: -32, y: -12)
+//                                           
+//                                    }
+//                                }
                             Text(tab.rawValue.capitalized)
                                 .font(.caption)
                                 .fontWeight(.semibold)

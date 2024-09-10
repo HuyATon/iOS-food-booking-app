@@ -11,7 +11,7 @@ import Foundation
 @MainActor
 class BookingViewModel: ObservableObject {
     
-    @Published var bookings: [Booking] = []
+    @Published var bookings = [Booking]()
     @Published var showAlert = false
     @Published var alertMessage: String?
     @Published var isLoading = false
